@@ -43,7 +43,7 @@ in
 ```PowerQuery
 let
     Library = クエリ1,
-    Result = Library[GetXlsSheets]("C:\Your\File\Path","Sheet1",{".xlsx", ".xls"})
+    Result = Library[Double](100)
 in
     Result
 ```
