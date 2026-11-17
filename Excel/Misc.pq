@@ -1,5 +1,5 @@
 let
-    fnFolderImport = (
+    fnGetXlsSheets = (
         FolderPath as text,
         SheetName as text,
         Extensions as list
@@ -30,14 +30,40 @@ let
         in
             Files,
 
-    fnCsvImport = (path as text) =>
-        Csv.Document(File.Contents(path)),
+    fnExpandSheets = (
+        Source as table,
+        SheetColumn as text,
+        KeepColumns as list
+    ) as table =>
+        let
+            // 各テーブルのカラム名を取得
+            ColumnNames = List.Distinct(
+                List.Combine(
+                    List.Transform(
+                        Table.Column(Source, SheetColumn),
+                        each Table.ColumnNames(_)
+                    )
+                )
+            ),
+            // テーブル列を展開
+            Expanded = Table.ExpandTableColumn(
+                Source,
+                SheetColumn,
+                ColumnNames
+            ),
+            // 必要な列だけ残す
+            Result = Table.SelectColumns(
+                Expanded,
+                List.Combine({KeepColumns, ColumnNames})
+            )
+        in
+            Result,
 
     fnDouble = (x as number) =>
         x * 2
 in
     [
-        FolderImport = fnFolderImport,
-        CsvImport = fnCsvImport,
+        GetXlsSheets = fnGetXlsSheets,
+        ExpandSheets = fnExpandSheets,
         Double = fnDouble
     ]
