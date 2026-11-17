@@ -7,6 +7,8 @@ PowerQuery先生の関数を共通管理するのがすごい面倒なのでど�
 
 ①GitHubとかで適当に公開したRawコードをEvaluateでテーブルに放り込む
 
+ここでは適当にクエリ1とかにしておく
+どうも``#shared``はMSによるとEvaluateでは正式にサポートされてないらしいけど、まぁ評価順序が微妙とかそんなんでしょ多分。
 ```PowerQuery
 let
     Library = Expression.Evaluate(
@@ -18,8 +20,6 @@ let
 in
     Library
 ```
-
-※``#shared``はMSによるとEvaluateでは正式にサポートされてないそーだが、まぁ実験だし。
 
 GitHub側に置いておく定義はこんな感じ
 ```PowerQuery
